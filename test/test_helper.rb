@@ -92,6 +92,7 @@ class Test::Unit::TestCase
   
   def mock_connection_for(klass, options = {})
     data = options[:returns]
+    subdomain = options[:subdomain] || 'mybucket'
     return_values = case data
     when Hash
       FakeResponse.new(data)
@@ -101,7 +102,7 @@ class Test::Unit::TestCase
       abort "Response data for mock connection must be a Hash or an Array. Was #{data.inspect}."
     end
     
-    connection = flexmock('Mock connection') do |mock|
+    connection = flexmock('Mock connection', :subdomain => subdomain) do |mock|
       mock.should_receive(:request).and_return(*return_values).at_least.once
     end
 

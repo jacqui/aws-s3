@@ -129,6 +129,7 @@ class ObjectTest < Test::Unit::TestCase
   
   def test_inspect
     mock_connection_for(Bucket, :returns => {:body => Fixtures::Buckets.bucket_with_one_key})
+    Base.establish_connection!(:access_key_id => '123', :secret_access_key => 'abc')
     object = S3Object.find('tongue_overload.jpg', 'bucket does not matter')
     assert object.path
     assert_nothing_raised { object.inspect }

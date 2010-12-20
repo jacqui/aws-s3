@@ -297,7 +297,12 @@ module AWS
             options.replace(bucket)
             bucket = nil
           end
-          '/' << File.join(bucket_name(bucket), name)
+          # bucket is already specified as subdomain in the address
+          if connection.subdomain
+            '/' << name
+          else
+            '/' << File.join(bucket_name(bucket), name)
+          end
         end
     
         private
